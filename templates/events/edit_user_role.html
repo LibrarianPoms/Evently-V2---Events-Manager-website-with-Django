@@ -1,0 +1,50 @@
+{% extends "events/base.html" %}
+{% load static %}
+{% block title %}Edit User Role{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit User Role</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'update_user_role' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user_profile.user.id }}">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="{{ user_profile.user.username }}" readonly>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" value="{{ user_profile.user.get_full_name }}" readonly>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ user_profile.user.email }}" readonly>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="admin" {% if user_profile.role == 'admin' %}selected{% endif %}>Administrator</option>
+                            <option value="organizer" {% if user_profile.role == 'organizer' %}selected{% endif %}>Organizer</option>
+                            <option value="participant" {% if user_profile.role == 'participant' %}selected{% endif %}>Participant</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
